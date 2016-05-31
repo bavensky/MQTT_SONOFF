@@ -17,10 +17,14 @@ MqttConnector *mqtt;
 #define DEVICE_NAME       "CNX-SONOFF-001"
 
 /* WIFI INFO */
-#ifndef WIFI_SSID
-  #define WIFI_SSID        "ESPERT-002"
-  #define WIFI_PASSWORD    "espertap"
+#ifndef WIFI_SSID   //"ESPERT-002"  "@ESPertAP-001" 
+#define WIFI_SSID        "ESPERT-002"
+#define WIFI_PASSWORD    "espertap"
 #endif
+
+#define BUTTON  0
+#define RELAY 12
+#define LED   13
 
 #include "_publish.h"
 #include "_receive.h"
@@ -30,6 +34,9 @@ void init_hardware()
 {
   Serial.begin(115200);
   delay(10);
+  pinMode(BUTTON, INPUT);
+  pinMode(RELAY, OUTPUT);
+  pinMode(LED, OUTPUT);
   Serial.println();
   Serial.println("Serial port initialized.");
 }
@@ -39,7 +46,7 @@ void setup()
   init_hardware();
 
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
-  while(WiFi.status() != WL_CONNECTED) {
+  while (WiFi.status() != WL_CONNECTED) {
     Serial.printf ("Connecting to %s:%s\r\n", WIFI_SSID, WIFI_PASSWORD);
     delay(300);
   }

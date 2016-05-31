@@ -3,14 +3,16 @@ PubSubClient::callback_t on_message_arrived =
   String topic = pub.topic();
   String payload = pub.payload_string();
   String text = topic + " => " + payload;
+
   
-#define RELAY 12
-#define LED   13
+  Serial.print(text);
 
-  pinMode(RELAY, OUTPUT);
-  pinMode(LED, OUTPUT);
-
-  Serial.println(text);
+  if(digitalRead(BUTTON) == 0){
+    delay(200);
+    digitalWrite(LED, !digitalRead(LED));
+    digitalWrite(RELAY, !digitalRead(LED));
+  }
+  
   if (payload == "11")  {
     digitalWrite(LED, HIGH);
     digitalWrite(RELAY, HIGH);
